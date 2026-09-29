@@ -75,13 +75,16 @@ subscribeButton.addEventListener("click", async (e) => {
   };
 
   try {
-    const response = await axios.post("https://recurring-billing-backend.vercel.app/subscribe-daily", payload, {
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const response = await fetch("https://backend-eight-tau-40.vercel.app/subscribe-daily", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
 
-    const subscription = response.data;
+    const subscription = await response.json();
+    if (!response.ok) {
+      throw new Error(subscription.error || "Subscription request failed");
+    }
     const isSuccessful = subscription.status === "COMPLETED" && subscription.subscriptionInformation?.status === "ACTIVE";
 
     if (isSuccessful) {
@@ -90,7 +93,7 @@ subscribeButton.addEventListener("click", async (e) => {
       successDialog.showModal();
     }
   } catch (error) {
-    console.error("Subscription request failed:", error.response?.data || error.message);
+    console.error("Subscription request failed:", error.message);
     alert("We could not create your subscription. Please check your details and try again.");
   } finally {
     checkoutButton.innerHTML = "Subscribe";

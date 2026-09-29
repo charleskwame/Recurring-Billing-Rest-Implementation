@@ -6,7 +6,7 @@ const { createHeaders } = require("cybersource-auth");
 const axios = require("axios");
 
 const app = express();
-const allowedOrigins = ["https://recurring-billing-frontend.vercel.app", process.env.FRONTEND_ORIGIN]
+const allowedOrigins = ["https://recurring-billing-rest-implementati.vercel.app", process.env.FRONTEND_ORIGIN]
   .filter(Boolean)
   .map((origin) => origin.replace(/\/+$/, ""));
 
